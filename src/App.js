@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Counter from './components/Counter';
+import NumberProvider from './components/NumberProvider'; 
+import NumberContext from './contexts/NumberContext';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NumberProvider>
+      <div className="App">
+          <NumberContext.Consumer>
+            {({number, updateNumber}) => <div>
+                                          <h2>{ number }</h2>
+                                          <button onClick={updateNumber}>Random Number</button>
+                                        </div>}
+          </NumberContext.Consumer>
+      
+        {/* version 1 */}
+        {/* <Counter render={value => <div>{value}</div>} /> */}
+
+        {/* version 2 */} 
+        {/* <Counter>
+          { value => <div>{value}</div> }
+        </Counter> */}
+
+
+        <Counter>
+          { state => <div>{state.count}</div> }
+        </Counter>
+        {/* hoặc lấy count từ state bằng destructuring */}
+        <Counter>
+          { ({ count }) => <div>{count}</div> }
+        </Counter>
+      </div>
+    </NumberProvider>
   );
 }
 
